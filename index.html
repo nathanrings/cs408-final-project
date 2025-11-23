@@ -1,18 +1,278 @@
-<!doctype html>
-<html>
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>Hello World!</title>
-  <meta name="description" content="">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8" />
+  <title>NFL Elo Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #0b1020;
+      --card: #141a33;
+      --accent: #4fd1c5;
+      --accent-soft: rgba(79, 209, 197, 0.12);
+      --text: #f5f5f7;
+      --muted: #9ca3af;
+      --border: #2d3553;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      background: radial-gradient(circle at top, #1e293b 0, #020617 55%, #000 100%);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 2rem 1rem 3rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    header {
+      max-width: 960px;
+      width: 100%;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    h1 {
+      font-size: clamp(2.2rem, 4vw, 2.8rem);
+      margin-bottom: 0.4rem;
+      letter-spacing: 0.03em;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .grid {
+      max-width: 1100px;
+      width: 100%;
+      display: grid;
+      gap: 1.5rem;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+
+    .division-card {
+      background: linear-gradient(145deg, #020617, #020617 40%, #0b1120 100%);
+      border-radius: 1rem;
+      border: 1px solid var(--border);
+      padding: 1rem 1.25rem 1.2rem;
+      box-shadow: 0 18px 35px rgba(0, 0, 0, 0.5);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .division-card::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background: radial-gradient(circle at top left, var(--accent-soft), transparent 60%);
+      opacity: 0.7;
+      pointer-events: none;
+    }
+
+    .division-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 0.8rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .division-name {
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      font-size: 0.85rem;
+      color: var(--accent);
+    }
+
+    .conference-label {
+      font-size: 0.75rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+    }
+
+    ul.team-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .team-list li + li {
+      margin-top: 0.3rem;
+    }
+
+    .team-link {
+      display: block;
+      padding: 0.35rem 0.45rem;
+      border-radius: 0.6rem;
+      text-decoration: none;
+      color: var(--text);
+      font-size: 0.93rem;
+      transition:
+        background 0.15s ease,
+        transform 0.1s ease,
+        box-shadow 0.15s ease;
+    }
+
+    .team-link:hover,
+    .team-link:focus-visible {
+      background: rgba(79, 209, 197, 0.16);
+      outline: none;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(15, 23, 42, 0.8);
+    }
+
+    .footer-note {
+      margin-top: 2rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+      text-align: center;
+      max-width: 960px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .team-link {
+        transition: none;
+      }
+    }
+  </style>
 </head>
-
 <body>
-  <h1>HTML Rocks!</h1>
-  <img src="img/compile.jpeg">
-  <script type="module" src="js/main.js"></script>
-</body>
+  <header>
+    <h1>NFL Elo Dashboard</h1>
+    <p class="subtitle">
+      Choose a team to view detailed Elo history, peaks, troughs, and season summaries.
+    </p>
+  </header>
 
+  <main class="grid" aria-label="NFL teams by division">
+    <!-- AFC East -->
+    <section class="division-card" aria-labelledby="afc-east">
+      <div class="division-header">
+        <h2 id="afc-east" class="division-name">AFC East</h2>
+        <span class="conference-label">AFC</span>
+      </div>
+      <ul class="team-list">
+        <li><a class="team-link" href="teams/bills.html">Buffalo Bills</a></li>
+        <li><a class="team-link" href="teams/dolphins.html">Miami Dolphins</a></li>
+        <li><a class="team-link" href="teams/patriots.html">New England Patriots</a></li>
+        <li><a class="team-link" href="teams/jets.html">New York Jets</a></li>
+      </ul>
+    </section>
+
+    <!-- AFC North -->
+    <section class="division-card" aria-labelledby="afc-north">
+      <div class="division-header">
+        <h2 id="afc-north" class="division-name">AFC North</h2>
+        <span class="conference-label">AFC</span>
+      </div>
+      <ul class="team-list">
+        <li><a class="team-link" href="teams/ravens.html">Baltimore Ravens</a></li>
+        <li><a class="team-link" href="teams/bengals.html">Cincinnati Bengals</a></li>
+        <li><a class="team-link" href="teams/browns.html">Cleveland Browns</a></li>
+        <li><a class="team-link" href="teams/steelers.html">Pittsburgh Steelers</a></li>
+      </ul>
+    </section>
+
+    <!-- AFC South -->
+    <section class="division-card" aria-labelledby="afc-south">
+      <div class="division-header">
+        <h2 id="afc-south" class="division-name">AFC South</h2>
+        <span class="conference-label">AFC</span>
+      </div>
+      <ul class="team-list">
+        <li><a class="team-link" href="teams/texans.html">Houston Texans</a></li>
+        <li><a class="team-link" href="teams/colts.html">Indianapolis Colts</a></li>
+        <li><a class="team-link" href="teams/jaguars.html">Jacksonville Jaguars</a></li>
+        <li><a class="team-link" href="teams/titans.html">Tennessee Titans</a></li>
+      </ul>
+    </section>
+
+    <!-- AFC West -->
+    <section class="division-card" aria-labelledby="afc-west">
+      <div class="division-header">
+        <h2 id="afc-west" class="division-name">AFC West</h2>
+        <span class="conference-label">AFC</span>
+      </div>
+      <ul class="team-list">
+        <li><a class="team-link" href="teams/broncos.html">Denver Broncos</a></li>
+        <li><a class="team-link" href="teams/chiefs.html">Kansas City Chiefs</a></li>
+        <li><a class="team-link" href="teams/raiders.html">Las Vegas Raiders</a></li>
+        <li><a class="team-link" href="teams/chargers.html">Los Angeles Chargers</a></li>
+      </ul>
+    </section>
+
+    <!-- NFC East -->
+    <section class="division-card" aria-labelledby="nfc-east">
+      <div class="division-header">
+        <h2 id="nfc-east" class="division-name">NFC East</h2>
+        <span class="conference-label">NFC</span>
+      </div>
+      <ul class="team-list">
+        <li><a class="team-link" href="teams/cowboys.html">Dallas Cowboys</a></li>
+        <li><a class="team-link" href="teams/giants.html">New York Giants</a></li>
+        <li><a class="team-link" href="teams/eagles.html">Philadelphia Eagles</a></li>
+        <li><a class="team-link" href="teams/commanders.html">Washington Commanders</a></li>
+      </ul>
+    </section>
+
+    <!-- NFC North -->
+    <section class="division-card" aria-labelledby="nfc-north">
+      <div class="division-header">
+        <h2 id="nfc-north" class="division-name">NFC North</h2>
+        <span class="conference-label">NFC</span>
+      </div>
+      <ul class="team-list">
+        <li><a class="team-link" href="teams/bears.html">Chicago Bears</a></li>
+        <li><a class="team-link" href="teams/lions.html">Detroit Lions</a></li>
+        <li><a class="team-link" href="teams/packers.html">Green Bay Packers</a></li>
+        <li><a class="team-link" href="teams/vikings.html">Minnesota Vikings</a></li>
+      </ul>
+    </section>
+
+    <!-- NFC South -->
+    <section class="division-card" aria-labelledby="nfc-south">
+      <div class="division-header">
+        <h2 id="nfc-south" class="division-name">NFC South</h2>
+        <span class="conference-label">NFC</span>
+      </div>
+      <ul class="team-list">
+        <li><a class="team-link" href="teams/falcons.html">Atlanta Falcons</a></li>
+        <li><a class="team-link" href="teams/panthers.html">Carolina Panthers</a></li>
+        <li><a class="team-link" href="teams/saints.html">New Orleans Saints</a></li>
+        <li><a class="team-link" href="teams/buccaneers.html">Tampa Bay Buccaneers</a></li>
+      </ul>
+    </section>
+
+    <!-- NFC West -->
+    <section class="division-card" aria-labelledby="nfc-west">
+      <div class="division-header">
+        <h2 id="nfc-west" class="division-name">NFC West</h2>
+        <span class="conference-label">NFC</span>
+      </div>
+      <ul class="team-list">
+        <li><a class="team-link" href="teams/cardinals.html">Arizona Cardinals</a></li>
+        <li><a class="team-link" href="teams/rams.html">Los Angeles Rams</a></li>
+        <li><a class="team-link" href="teams/49ers.html">San Francisco 49ers</a></li>
+        <li><a class="team-link" href="teams/seahawks.html">Seattle Seahawks</a></li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="footer-note">
+Footer (not sure what'll be here yet)
+  </footer>
+</body>
 </html>
