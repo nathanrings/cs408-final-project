@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Buffalo Bills — Elo Profile</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+
+<body>
+  <header class="team-header">
+    <img src="../teams/logos/bills.png" alt="Buffalo Bills Logo" class="team-logo">
+    <h1 class="team-title">Buffalo Bills</h1>
+    <p class="subtitle">2025 Elo Performance Overview</p>
+  </header>
+
+  <main class="team-content">
+
+    <!-- Team Stats Card -->
+    <section class="team-card">
+      <h2 class="team-section-title">Team Overview</h2>
+
+      <div class="team-stats-grid">
+        <div class="stat">
+          <span class="stat-label">Record</span>
+          <span class="stat-value">11–6</span>
+        </div>
+
+        <div class="stat">
+          <span class="stat-label">Current Elo</span>
+          <span class="stat-value">1624</span>
+        </div>
+
+        <div class="stat">
+          <span class="stat-label">Highest Elo</span>
+          <span class="stat-value">1728 (Week 9)</span>
+        </div>
+
+        <div class="stat">
+          <span class="stat-label">Lowest Elo</span>
+          <span class="stat-value">1482 (Week 3)</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Elo Chart Placeholder -->
+    <section class="team-card">
+      <h2 class="team-section-title">Season Elo Chart</h2>
+      <div class="elo-chart-frame">
+        <p class="placeholder-text">Season Elo chart will load here via AWS Lambda</p>
+      </div>
+
+      <!-- Expandable Stats -->
+      <button class="more-stats-toggle" onclick="toggleStats()">More Stats ▼</button>
+
+      <div id="more-stats" class="more-stats">
+        <div class="more-stats-grid">
+          <div class="stat">
+            <span class="stat-label">Points Per Game</span>
+            <span class="stat-value">27.1</span>
+          </div>
+
+          <div class="stat">
+            <span class="stat-label">Points Allowed/Game</span>
+            <span class="stat-value">20.4</span>
+          </div>
+
+          <div class="stat">
+            <span class="stat-label">Pass Yards/Game</span>
+            <span class="stat-value">245.6</span>
+          </div>
+
+          <div class="stat">
+            <span class="stat-label">Rush Yards/Game</span>
+            <span class="stat-value">118.3</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer-note">
+    <a href="../index.html" class="back-link">← Back to Divisions</a>
+  </footer>
+
+  <script>
+    function toggleStats() {
+      const panel = document.getElementById("more-stats");
+      const btn = document.querySelector(".more-stats-toggle");
+
+      panel.classList.toggle("open");
+
+      // Toggle arrow direction
+      if (panel.classList.contains("open")) {
+        btn.textContent = "More Stats ▲";
+      } else {
+        btn.textContent = "More Stats ▼";
+      }
+    }
+  </script>
+
+</body>
+</html>
