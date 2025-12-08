@@ -10,8 +10,8 @@
 <body>
   <header class="team-header">
     <img src="../teams/logos/bills.png" alt="Buffalo Bills Logo" class="team-logo">
-    <h1 class="team-title">Buffalo Bills</h1>
-    <p class="subtitle">2025 Elo Performance Overview</p>
+    <h1 class="team-title" id="team-name">Buffalo Bills</h1>
+    <p class="subtitle" id="subtitle">2025 Elo Performance Overview</p>
   </header>
 
   <main class="team-content">
@@ -23,22 +23,22 @@
       <div class="team-stats-grid">
         <div class="stat">
           <span class="stat-label">Record</span>
-          <span class="stat-value">11–6</span>
+          <span class="stat-value" id="record">–</span>
         </div>
 
         <div class="stat">
           <span class="stat-label">Current Elo</span>
-          <span class="stat-value">1624</span>
+          <span class="stat-value" id="current-elo">–</span>
         </div>
 
         <div class="stat">
           <span class="stat-label">Highest Elo</span>
-          <span class="stat-value">1728 (Week 9)</span>
+          <span class="stat-value" id="highest-elo">–</span>
         </div>
 
         <div class="stat">
           <span class="stat-label">Lowest Elo</span>
-          <span class="stat-value">1482 (Week 3)</span>
+          <span class="stat-value" id="lowest-elo">–</span>
         </div>
       </div>
     </section>
@@ -57,22 +57,22 @@
         <div class="more-stats-grid">
           <div class="stat">
             <span class="stat-label">Points Per Game</span>
-            <span class="stat-value">27.1</span>
+            <span class="stat-value" id="ppg">–</span>
           </div>
 
           <div class="stat">
             <span class="stat-label">Points Allowed/Game</span>
-            <span class="stat-value">20.4</span>
+            <span class="stat-value" id="papg">–</span>
           </div>
 
           <div class="stat">
             <span class="stat-label">Pass Yards/Game</span>
-            <span class="stat-value">245.6</span>
+            <span class="stat-value" id="pass-yds">–</span>
           </div>
 
           <div class="stat">
             <span class="stat-label">Rush Yards/Game</span>
-            <span class="stat-value">118.3</span>
+            <span class="stat-value" id="rush-yds">–</span>
           </div>
         </div>
       </div>
@@ -90,14 +90,58 @@
       const btn = document.querySelector(".more-stats-toggle");
 
       panel.classList.toggle("open");
+      btn.textContent = panel.classList.contains("open")
+        ? "More Stats ▲"
+        : "More Stats ▼";
+    }
 
-      // Toggle arrow direction
-      if (panel.classList.contains("open")) {
-        btn.textContent = "More Stats ▲";
-      } else {
-        btn.textContent = "More Stats ▼";
+    async function loadTeamData() {
+      const teamId = 2;          
+      const year = 2025;
+
+      const apiUrl = `https://9o3f790vnk.execute-api.us-east-2.amazonaws.com/items/buffalo-bills-${year}`;
+
+      try {
+        const res = await fetch(apiUrl);
+        const data = await res.json();
+
+        if (!data) return;
+
+        // Fill team overview
+        document.getElementById("team-name").textContent = data.team ?? "Team";
+        document.getElementById("subtitle").textContent = `${data.year} Elo Performance Overview`;
+        document.getElementById("record").textContent = data.record ?? "–";
+
+        document.getElementById("current-elo").textContent = data.currentElo ?? "–";
+
+        if (data.highestElo)
+          document.getElementById("highest-elo").textContent =
+            `${data.highestElo.value} (Week ${data.highestElo.week})`;
+        else document.getElementById("highest-elo").textContent = "–";
+
+        if (data.lowestElo)
+          document.getElementById("lowest-elo").textContent =
+            `${data.lowestElo.value} (Week ${data.lowestElo.week})`;
+        else document.getElementById("lowest-elo").textContent = "–";
+
+        // Extra stats
+        const s = data.seasonStats ?? {};
+        function fmt(n) {
+          return (typeof n === "number") ? n.toFixed(1) : "–";
+        }
+
+        document.getElementById("ppg").textContent = fmt(s.ppg);
+        document.getElementById("papg").textContent = fmt(s.papg);
+        document.getElementById("pass-yds").textContent = fmt(s.passYds);
+        document.getElementById("rush-yds").textContent = fmt(s.rushYds);
+
+
+      } catch (err) {
+        console.error("Error loading team data:", err);
       }
     }
+
+    loadTeamData();
   </script>
 
 </body>
