@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Atlanta Falcons — Elo Profile</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+
+<body>
+  <header class="team-header">
+    <img src="../teams/logos/falcons.png" alt="Atlanta Falcons Logo" class="team-logo">
+    <h1 class="team-title" id="team-name">Atlanta Falcons</h1>
+    <p class="subtitle" id="subtitle">2025 Elo Performance Overview</p>
+  </header>
+
+  <main class="team-content">
+
+    <!-- Team Stats Card -->
+    <section class="team-card">
+      <h2 class="team-section-title">Team Overview</h2>
+
+      <div class="team-stats-grid">
+        <div class="stat">
+          <span class="stat-label">Record</span>
+          <span class="stat-value" id="record">–</span>
+        </div>
+
+        <div class="stat">
+          <span class="stat-label">Current Elo</span>
+          <span class="stat-value" id="current-elo">–</span>
+        </div>
+
+        <div class="stat">
+          <span class="stat-label">Highest Elo</span>
+          <span class="stat-value" id="highest-elo">–</span>
+        </div>
+
+        <div class="stat">
+          <span class="stat-label">Lowest Elo</span>
+          <span class="stat-value" id="lowest-elo">–</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Elo Chart Placeholder -->
+    <section class="team-card">
+      <h2 class="team-section-title">Season Elo Chart</h2>
+      <div class="elo-chart-frame">
+        <p class="placeholder-text">Season Elo chart will load here via AWS Lambda</p>
+      </div>
+
+      <!-- Expandable Stats -->
+      <button class="more-stats-toggle" onclick="toggleStats()">More Stats ▼</button>
+
+      <div id="more-stats" class="more-stats">
+        <div class="more-stats-grid">
+          <div class="stat">
+            <span class="stat-label">Points Per Game</span>
+            <span class="stat-value" id="ppg">–</span>
+          </div>
+
+          <div class="stat">
+            <span class="stat-label">Points Allowed/Game</span>
+            <span class="stat-value" id="papg">–</span>
+          </div>
+
+          <div class="stat">
+            <span class="stat-label">Pass Yards/Game</span>
+            <span class="stat-value" id="pass-yds">–</span>
+          </div>
+
+          <div class="stat">
+            <span class="stat-label">Rush Yards/Game</span>
+            <span class="stat-value" id="rush-yds">–</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer-note">
+    <a href="../index.html" class="back-link">← Back to Divisions</a>
+  </footer>
+
+  <script>
+    function toggleStats() {
+      const panel = document.getElementById("more-stats");
+      const btn = document.querySelector(".more-stats-toggle");
+
+      panel.classList.toggle("open");
+      btn.textContent = panel.classList.contains("open")
+        ? "More Stats ▲"
+        : "More Stats ▼";
+    }
+
+    async function loadTeamData() {
+      const teamId = 2;          
+      const year = 2025;
+
+      const apiUrl = `https://9o3f790vnk.execute-api.us-east-2.amazonaws.com/items/atlanta-falcons-${year}`;
+
+      try {
+        const res = await fetch(apiUrl);
+        const data = await res.json();
+
+        if (!data) return;
+
+        // Fill team overview
+        document.getElementById("team-name").textContent = data.team ?? "Team";
+        document.getElementById("subtitle").textContent = `${data.year} Elo Performance Overview`;
+        document.getElementById("record").textContent = data.record ?? "–";
+
+        document.getElementById("current-elo").textContent = data.currentElo ?? "–";
+
+        if (data.highestElo)
+          document.getElementById("highest-elo").textContent =
+            `${data.highestElo.value} (Week ${data.highestElo.week})`;
+        else document.getElementById("highest-elo").textContent = "–";
+
+        if (data.lowestElo)
+          document.getElementById("lowest-elo").textContent =
+            `${data.lowestElo.value} (Week ${data.lowestElo.week})`;
+        else document.getElementById("lowest-elo").textContent = "–";
+
+        // Extra stats
+        const s = data.seasonStats ?? {};
+        function fmt(n) {
+          return (typeof n === "number") ? n.toFixed(1) : "–";
+        }
+
+        document.getElementById("ppg").textContent = fmt(s.ppg);
+        document.getElementById("papg").textContent = fmt(s.papg);
+        document.getElementById("pass-yds").textContent = fmt(s.passYds);
+        document.getElementById("rush-yds").textContent = fmt(s.rushYds);
+
+
+      } catch (err) {
+        console.error("Error loading team data:", err);
+      }
+    }
+
+    loadTeamData();
+  </script>
+
+</body>
+</html>
