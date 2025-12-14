@@ -14,7 +14,7 @@
     <p class="subtitle" id="subtitle">2025 Elo Performance Overview</p>
   </header>
 
-  <main class="team-content">
+   <main class="team-content">
 
     <!-- Team Stats Card -->
     <section class="team-card">
@@ -47,7 +47,7 @@
     <section class="team-card">
       <h2 class="team-section-title">Season Elo Chart</h2>
       <div class="elo-chart-frame">
-        <p class="placeholder-text">Season Elo chart will load here via AWS Lambda</p>
+      <canvas id="elo-chart"></canvas>
       </div>
 
       <!-- Expandable Stats -->
@@ -84,6 +84,9 @@
     <a href="../index.html" class="back-link">← Back to Divisions</a>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="../js/main.js"></script>
+
   <script>
     function toggleStats() {
       const panel = document.getElementById("more-stats");
@@ -116,12 +119,12 @@
 
         if (data.highestElo)
           document.getElementById("highest-elo").textContent =
-            `${data.highestElo.value} (Week ${data.highestElo.week})`;
+            `${data.highestElo.elo} (Week ${data.highestElo.week})`;
         else document.getElementById("highest-elo").textContent = "–";
 
         if (data.lowestElo)
           document.getElementById("lowest-elo").textContent =
-            `${data.lowestElo.value} (Week ${data.lowestElo.week})`;
+            `${data.lowestElo.elo} (Week ${data.lowestElo.week})`;
         else document.getElementById("lowest-elo").textContent = "–";
 
         // Extra stats
@@ -142,7 +145,7 @@
     }
 
     loadTeamData();
+    loadEloChart("tennessee-titans", 2025);
   </script>
-
 </body>
 </html>
