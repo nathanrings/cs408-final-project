@@ -273,3 +273,62 @@ ul.team-list {
   gap: 1.2rem;
   margin-top: 1rem;
 }
+
+.dashboard-header {
+  text-align: center;
+}
+
+.dashboard-logo {
+  width: 90px;
+  height: auto;
+  margin-bottom: 0.75rem;
+  filter: drop-shadow(0 0 10px rgba(79, 209, 197, 0.25));
+}
+
+.dashboard-nav {
+  margin-top: 0.75rem;
+}
+
+.dashboard-link {
+  color: var(--accent);
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.dashboard-link:hover {
+  text-decoration: underline;
+}
+
+.leaderboard-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.leaderboard-table th,
+.leaderboard-table td {
+  padding: 0.6rem 0.8rem;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+}
+
+.leaderboard-table th {
+  color: var(--accent);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+}
+
+.leaderboard-table a {
+  color: var(--text);
+  text-decoration: none;
+}
+
+.leaderboard-table a:hover {
+  text-decoration: underline;
+}
+
+.leaderboard-table th:not(:last-child),
+.leaderboard-table td:not(:last-child) {
+  border-right: 1px solid var(--border);
+}
+

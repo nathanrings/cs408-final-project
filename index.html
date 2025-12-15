@@ -8,12 +8,23 @@
 </head>
 
 <body>
-  <header>
-    <h1>NFL Elo Dashboard</h1>
-    <p class="subtitle">
-      Choose a team to view detailed Elo history, peaks, troughs, and season summaries.
-    </p>
-  </header>
+<header class="dashboard-header">
+  <img
+    src="nfl-logo.png"
+    alt="NFL Logo"
+    class="dashboard-logo"
+  />
+  <h1>NFL Elo Dashboard</h1>
+  <p class="subtitle">
+    Choose a team to view detailed Elo history, peaks, troughs, and season summaries.
+  </p>
+  <nav class="dashboard-nav">
+  <a href="leaderboard.html" class="dashboard-link">
+    View Current Elo Leaderboard
+  </a>
+</nav>
+</header>
+
 
   <main class="grid" aria-label="NFL teams by division">
     <!-- AFC East -->
@@ -130,7 +141,7 @@
   </main>
 
   <footer class="footer-note">
-    Footer (not sure what'll be here yet)
+    CS 408 Final Project | NFL Elo Dashboard
   </footer>
 </body>
 </html>
